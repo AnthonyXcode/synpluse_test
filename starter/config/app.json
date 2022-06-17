@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "synpluse_dev",
-    "slug": "synpluse_dev",
+    "name": "example_dev",
+    "slug": "example_dev",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -19,7 +19,7 @@
       "**/*"
     ],
     "ios": {
-      "bundleIdentifier": "com.synpluse.dev",
+      "bundleIdentifier": "com.example.app.dev",
       "supportsTablet": true
     },
     "android": {
