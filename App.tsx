@@ -1,22 +1,33 @@
-import { StatusBar } from 'expo-status-bar';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import React from 'react'
+import redux from '@starter/redux'
+import useCachedResources from './hooks/useCachedResources'
+import { PersistGate } from 'redux-persist/integration/react'
+import { Provider } from 'react-redux'
 
-import useCachedResources from './hooks/useCachedResources';
-import useColorScheme from './hooks/useColorScheme';
-import Navigation from './navigation';
+const { store, persistor } = redux()
+import i18n from 'i18n-js'
+import * as Localization from 'expo-localization'
+import { defaultTranslation } from '@starter/helper/i18n'
+import { Screens } from './screens'
+import { firebaseHelper } from './helper/firebase'
+
+i18n.translations = defaultTranslation()
+i18n.locale = Localization.locale
+i18n.fallbacks = true
 
 export default function App() {
-  const isLoadingComplete = useCachedResources();
-  const colorScheme = useColorScheme();
+  const isLoadingComplete = useCachedResources()
+  firebaseHelper.initFirebase()
 
   if (!isLoadingComplete) {
-    return null;
+    return null
   } else {
     return (
-      <SafeAreaProvider>
-        <Navigation colorScheme={colorScheme} />
-        <StatusBar />
-      </SafeAreaProvider>
-    );
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <Screens />
+        </PersistGate>
+      </Provider>
+    )
   }
 }
