@@ -2,41 +2,57 @@ import { Button } from '@starter/component/Button'
 import { FormText } from '@starter/component/Form/FormText'
 import { Spacing } from '@starter/component/Spacing'
 import { StyleSheet, View } from 'react-native'
-import { useForm } from 'react-hook-form'
-
+import { useForm, Controller } from 'react-hook-form'
+import { signInWithEmailAndPassword, getAuth } from 'firebase/auth'
 import { LoginScreenProps } from '../types'
 
+interface IForm {
+  email: string
+  password: string
+}
+
 export default function LoginScreen({ navigation }: LoginScreenProps<'Login'>) {
+  const auth = getAuth()
   const {
-    register,
+    control,
     handleSubmit,
-    watch,
     formState: { errors },
-  } = useForm()
+  } = useForm<IForm>()
 
   const onPressRegister = () => {
     navigation.navigate('Register')
   }
 
-  const onPressLogin = () => {}
+  const onPressLogin = (value: IForm) => {
+    signInWithEmailAndPassword(auth, value.email, value.password)
+      .then((user) => {
+        console.log(user)
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
 
   return (
     <View style={styles.container}>
-      <FormText
-        title='Phone'
-        onChangeText={(account) => {
-          console.log(account)
+      <Controller
+        name='email'
+        control={control}
+        rules={{ required: true }}
+        render={({ field: { onChange } }) => {
+          return <FormText title='Email' onChangeText={onChange} />
         }}
       />
-      <FormText
-        title='Password'
-        onChangeText={(password) => {
-          console.log(password)
+      <Controller
+        name='password'
+        control={control}
+        rules={{ required: true }}
+        render={({ field: { onChange } }) => {
+          return <FormText title='Password' onChangeText={onChange} isPaasword />
         }}
-        isPaasword
       />
       <Spacing height={20} />
-      <Button title='Login' onPress={() => {}} />
+      <Button title='Login' onPress={handleSubmit(onPressLogin)} />
       <Spacing height={40} />
       <Button title='Register' type='outline' onPress={onPressRegister} />
     </View>
