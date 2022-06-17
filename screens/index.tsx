@@ -8,10 +8,12 @@ import { useEffect, useState } from 'react'
 
 export const Screens = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [isAuthInit, setIsAuthInit] = useState(false)
   const auth = getAuth()
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
+      !isAuthInit && setIsAuthInit(true)
       if (user) {
         setIsLoggedIn(true)
       } else {
@@ -23,9 +25,7 @@ export const Screens = () => {
   return (
     <ActionSheetProvider>
       <SafeAreaProvider style={styles.container}>
-        <View style={styles.navigationContainer}>
-          <Navigation isLoggedIn={isLoggedIn} />
-        </View>
+        <View style={styles.navigationContainer}>{isAuthInit && <Navigation isLoggedIn={isLoggedIn} />}</View>
         <StatusBar />
       </SafeAreaProvider>
     </ActionSheetProvider>

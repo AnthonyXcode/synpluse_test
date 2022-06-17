@@ -17,6 +17,7 @@ const linking: LinkingOptions<RootStackParamList> = {
         screens: {
           Main: 'main',
           Portfolio: 'portfolio',
+          Profile: 'profile',
         },
       },
       Modal: 'modal',
