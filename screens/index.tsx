@@ -5,6 +5,7 @@ import { ActionSheetProvider } from '@expo/react-native-action-sheet'
 import { StyleSheet, View } from 'react-native'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { useEffect, useState } from 'react'
+import { firebaseHelper } from '../helper/firebase'
 
 export const Screens = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -15,6 +16,7 @@ export const Screens = () => {
     onAuthStateChanged(auth, (user) => {
       !isAuthInit && setIsAuthInit(true)
       if (user) {
+        firebaseHelper.setUser(user)
         setIsLoggedIn(true)
       } else {
         setIsLoggedIn(false)

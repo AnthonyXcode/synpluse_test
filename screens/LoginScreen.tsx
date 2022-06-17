@@ -40,7 +40,7 @@ export default function LoginScreen({ navigation }: LoginScreenProps<'Login'>) {
         control={control}
         rules={{ required: true }}
         render={({ field: { onChange } }) => {
-          return <FormText title='Email' onChangeText={onChange} />
+          return <FormText title='E-mail' onChangeText={onChange} />
         }}
       />
       <Controller

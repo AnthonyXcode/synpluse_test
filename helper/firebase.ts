@@ -1,4 +1,6 @@
 import { initializeApp, getApps } from 'firebase/app'
+import { User } from 'firebase/auth'
+import { doc, getFirestore, setDoc } from 'firebase/firestore'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDtBHz9Ctjl93WA8ggYUQANsP30gKwYyTY',
@@ -16,6 +18,18 @@ const initFirebase = () => {
   }
 }
 
+const setUser = async (user: User) => {
+  const db = getFirestore()
+  const userDoc = doc(db, 'users', user.uid)
+  setDoc(userDoc, {
+    uid: user.uid,
+    email: user.email,
+  })
+    .then((result) => console.log({ result }))
+    .catch((error) => console.log({ error }))
+}
+
 export const firebaseHelper = {
   initFirebase,
+  setUser,
 }
