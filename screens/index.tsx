@@ -12,7 +12,7 @@ export const Screens = () => {
     <ActionSheetProvider>
       <SafeAreaProvider style={styles.container}>
         <View style={styles.navigationContainer}>
-          <Navigation colorScheme={colorScheme} />
+          <Navigation colorScheme={colorScheme} isLoggedIn={false} />
         </View>
         <StatusBar />
       </SafeAreaProvider>
