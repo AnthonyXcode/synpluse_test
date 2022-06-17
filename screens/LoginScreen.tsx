@@ -33,6 +33,7 @@ export default function LoginScreen({ navigation }: LoginScreenProps<'Login'>) {
         onChangeText={(password) => {
           console.log(password)
         }}
+        isPaasword
       />
       <Spacing height={20} />
       <Button title='Login' onPress={() => {}} />

@@ -2,8 +2,8 @@ import { ExpoConfig, ConfigContext } from '@expo/config'
 
 export default ({ config }: ConfigContext): ExpoConfig => {
   if (process.env.ENVIRONMENT === 'production') {
-    const name = 'example_mobile'
-    const identifier = 'com.example.app'
+    const name = 'synpluse'
+    const identifier = 'com.synpluse.app'
     return {
       ...config,
       slug: name,
@@ -12,8 +12,8 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       android: { ...config.android, package: identifier },
     }
   } else {
-    const name = 'example_mobile_dev'
-    const identifier = 'com.example.app.dev'
+    const name = 'synpluse_dev'
+    const identifier = 'com.synpluse.app.dev'
     return {
       ...config,
       slug: name,

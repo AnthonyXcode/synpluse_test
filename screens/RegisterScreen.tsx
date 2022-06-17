@@ -58,7 +58,7 @@ export default function RegisterScreen({ navigation }: LoginScreenProps<'Registe
           required: true,
         }}
         render={({ field: { onChange, value } }) => (
-          <FormText title='Password' onChangeText={onChange} text={value} error={errors.password?.message} />
+          <FormText title='Password' onChangeText={onChange} text={value} error={errors.password?.message} isPaasword />
         )}
         name='password'
       />
