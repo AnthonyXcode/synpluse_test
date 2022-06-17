@@ -1,15 +1,24 @@
 import { Button } from '@starter/component/Button'
 import { FormText } from '@starter/component/Form/FormText'
 import { Spacing } from '@starter/component/Spacing'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
+import { useForm } from 'react-hook-form'
 
-import { View } from '../components/Themed'
 import { LoginScreenProps } from '../types'
 
 export default function LoginScreen({ navigation }: LoginScreenProps<'Login'>) {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm()
+
   const onPressRegister = () => {
     navigation.navigate('Register')
   }
+
+  const onPressLogin = () => {}
 
   return (
     <View style={styles.container}>
@@ -36,7 +45,7 @@ export default function LoginScreen({ navigation }: LoginScreenProps<'Login'>) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    padding: 20,
   },
   title: {
     fontSize: 20,
