@@ -17,7 +17,6 @@ export const Screens = () => {
       } else {
         setIsLoggedIn(false)
       }
-      console.log({ user })
     })
   }, [])
 

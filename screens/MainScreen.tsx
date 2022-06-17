@@ -1,13 +1,14 @@
 import { StyleSheet, View, Text } from 'react-native'
 
 import EditScreenInfo from '../components/EditScreenInfo'
+import { RootTabScreenProps } from '../types'
 
-export default function TabTwoScreen() {
+export default function MainScreen({ navigation }: RootTabScreenProps<'Main'>) {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab Two</Text>
+      <Text style={styles.title}>Tab One</Text>
       <View style={styles.separator} />
-      <EditScreenInfo path='/screens/TabTwoScreen.tsx' />
+      <EditScreenInfo path='/screens/TabOneScreen.tsx' />
     </View>
   )
 }
