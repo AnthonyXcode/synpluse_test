@@ -1,3 +1,5 @@
+import { IInstrument } from './instruments'
+import { api, apiKey } from './../../starter/helper/api'
 import { firebaseHelper } from './../../helper/firebase'
 import { RootState } from '@slice'
 import { StoreStatus } from '@starter/redux/type'
@@ -8,6 +10,8 @@ export interface IPortfolio {
   position: number
   price: number
   symbol: string
+  currentPrice: number
+  gains: number
 }
 
 export type PortfolioState = {
@@ -24,9 +28,21 @@ export const portfolioAddRequest = createAsyncThunk(
 )
 
 export const portfolioGetRequest = createAsyncThunk('portfolio/api/get', async () => {
-  const response = await firebaseHelper.getPortifolio()
-  return response
+  const portfolio = await firebaseHelper.getPortifolio()
+  const portfolioWithMarketPrice: IPortfolio[] = await Promise.all(portfolio.map((p) => getPortfolioWithMarketPrice(p)))
+  return portfolioWithMarketPrice
 })
+
+const getPortfolioWithMarketPrice = async (item: IPortfolio) => {
+  const price = await api().get<{ 'Global Quote': IInstrument }>('/query', {
+    function: 'GLOBAL_QUOTE',
+    symbol: item.symbol,
+    apikey: apiKey,
+  })
+  const currentPrice = Number(price.data?.['Global Quote']['05. price']) || 0
+  const gains = Number(((item.price - currentPrice) * item.position).toFixed(2))
+  return { ...item, currentPrice, gains }
+}
 
 export const portfolioDeleteRequest = createAsyncThunk(
   'portfolio/api/delete',

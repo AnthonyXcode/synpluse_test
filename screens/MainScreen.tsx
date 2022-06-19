@@ -3,6 +3,7 @@ import { Button } from '@starter/component/Button'
 import { FormText } from '@starter/component/Form/FormText'
 import { LoadingLottie } from '@starter/component/LoadingLottie'
 import { Row } from '@starter/component/Row'
+import { colors } from '@starter/themes/colors'
 import { Icons } from '@starter/themes/icons'
 import { Controller, useForm } from 'react-hook-form'
 import { StyleSheet, View, SafeAreaView, FlatList, ListRenderItem, Text } from 'react-native'
@@ -84,6 +85,7 @@ export default function MainScreen({ navigation }: RootTabScreenProps<'Main'>) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: colors.white,
   },
   input: {
     flex: 1,

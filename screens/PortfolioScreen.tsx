@@ -3,7 +3,6 @@ import { LoadingLottie } from '@starter/component/LoadingLottie'
 import { Row } from '@starter/component/Row'
 import { Text } from '@starter/component/Text'
 import { colors } from '@starter/themes/colors'
-import { Icons } from '@starter/themes/icons'
 import { useEffect } from 'react'
 import { StyleSheet, View, FlatList, ListRenderItem, Alert } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
@@ -42,6 +41,8 @@ export default function PortfolioScreen() {
           <Text.H2>{`Symbol: ${item.symbol}`}</Text.H2>
           <Text>{`Position ${item.position}`}</Text>
           <Text>{`Price: ${item.price}`}</Text>
+          <Text>{`Current Price: ${item.currentPrice}`}</Text>
+          <Text>{`Gains: ${item.gains}`}</Text>
         </View>
       </Row>
     )
