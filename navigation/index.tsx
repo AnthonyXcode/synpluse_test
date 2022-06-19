@@ -20,6 +20,7 @@ import LinkingConfiguration from './LinkingConfiguration'
 import { AntDesign, MaterialCommunityIcons, Feather } from '@expo/vector-icons'
 import MainScreen from '../screens/MainScreen'
 import PortfolioScreen from '../screens/PortfolioScreen'
+import InstrumentScreen from '@screens/InstrumentScreen'
 
 export default function Navigation({ isLoggedIn }: { isLoggedIn: boolean }) {
   return (
@@ -40,6 +41,13 @@ function RootNavigator({ isLoggedIn }: { isLoggedIn: boolean }) {
     <Stack.Navigator initialRouteName={isLoggedIn ? 'Root' : 'Login'} screenOptions={{ headerShown: false }}>
       {isLoggedIn && <Stack.Screen name='Root' component={BottomTabNavigator} />}
       {!isLoggedIn && <Stack.Screen name='Login' component={LoginNavigation} />}
+      {isLoggedIn && (
+        <Stack.Screen
+          name='Instrument'
+          component={InstrumentScreen}
+          options={({ route }) => ({ headerShown: true, headerTitle: route.params.symbol, headerBackTitle: '' })}
+        />
+      )}
       <Stack.Screen name='NotFound' component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name='Modal' component={ModalScreen} />

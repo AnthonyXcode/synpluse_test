@@ -29,7 +29,9 @@ export default function MainScreen({ navigation }: RootTabScreenProps<'Main'>) {
     dispatch(instrumentsApiRequest({ keyword: data.keyword }))
   }
 
-  const onPressRow = (item: ISearchResult) => {}
+  const onPressRow = (item: ISearchResult) => {
+    navigation.navigate('Instrument', { symbol: item['1. symbol'] })
+  }
 
   const renderItem: ListRenderItem<ISearchResult> = ({ item }) => {
     return (
