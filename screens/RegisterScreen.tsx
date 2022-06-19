@@ -22,7 +22,6 @@ export default function RegisterScreen({ navigation }: LoginScreenProps<'Registe
   const onPressConfirm = (value: IForm) => {
     createUserWithEmailAndPassword(auth, value.email, value.password)
       .then((user) => {
-        console.log(user)
         Alert.alert('Success', 'Please use your email and password to login.', [
           {
             text: 'OK',

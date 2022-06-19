@@ -22,12 +22,10 @@ const initFirebase = () => {
 const setUser = async (user: User) => {
   const db = getFirestore()
   const userDoc = doc(db, 'users', user.uid)
-  setDoc(userDoc, {
+  await setDoc(userDoc, {
     uid: user.uid,
     email: user.email,
   })
-    .then((result) => console.log({ result }))
-    .catch((error) => console.log({ error }))
 }
 
 const addPortfolio = async ({ symbol, price, position }: { symbol: string; price: number; position: number }) => {
