@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AntDesign } from '@expo/vector-icons'
 
 export default function PortfolioScreen() {
-  const { status, portolio } = useSelector(portfolioSeletor)
+  const { status, portolio, totalGains } = useSelector(portfolioSeletor)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -50,7 +50,8 @@ export default function PortfolioScreen() {
 
   return (
     <View style={styles.container}>
-      <FlatList data={portolio} renderItem={renderItem} keyExtractor={(item) => item.id} />
+      <FlatList style={styles.list} data={portolio} renderItem={renderItem} keyExtractor={(item) => item.id} />
+      <Row title='Total Gains:' description={totalGains?.toString()} />
       <LoadingLottie isVisible={status === 'loading'} isIndicator />
     </View>
   )
@@ -63,5 +64,9 @@ const styles = StyleSheet.create({
   },
   cellContainer: {
     flex: 1,
+  },
+  list: {
+    flex: 1,
+    borderBottomWidth: 1,
   },
 })

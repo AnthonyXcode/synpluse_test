@@ -17,12 +17,14 @@ export interface IPortfolio {
 export type PortfolioState = {
   status: StoreStatus
   portolio?: IPortfolio[]
+  totalGains?: number
 }
 
 export const portfolioAddRequest = createAsyncThunk(
   'portfolio/api/add',
-  async ({ symbol, price, position }: { symbol: string; price: number; position: number }) => {
+  async ({ symbol, price, position }: { symbol: string; price: number; position: number }, { dispatch }) => {
     const portolio = await firebaseHelper.addPortfolio({ symbol, price, position })
+    dispatch(portfolioGetRequest())
     return portolio
   }
 )
@@ -30,7 +32,10 @@ export const portfolioAddRequest = createAsyncThunk(
 export const portfolioGetRequest = createAsyncThunk('portfolio/api/get', async () => {
   const portfolio = await firebaseHelper.getPortifolio()
   const portfolioWithMarketPrice: IPortfolio[] = await Promise.all(portfolio.map((p) => getPortfolioWithMarketPrice(p)))
-  return portfolioWithMarketPrice
+  const totalGains = portfolioWithMarketPrice.reduce((previous, current) => {
+    return previous + current.gains
+  }, 0)
+  return { portolio: portfolioWithMarketPrice, totalGains }
 })
 
 const getPortfolioWithMarketPrice = async (item: IPortfolio) => {
@@ -40,7 +45,7 @@ const getPortfolioWithMarketPrice = async (item: IPortfolio) => {
     apikey: apiKey,
   })
   const currentPrice = Number(price.data?.['Global Quote']['05. price']) || 0
-  const gains = Number(((item.price - currentPrice) * item.position).toFixed(2))
+  const gains = Number(((currentPrice - item.price) * item.position).toFixed(2))
   return { ...item, currentPrice, gains }
 }
 
@@ -79,20 +84,15 @@ export const portfolioSlice = createSlice({
         state.status = 'loading'
       })
       .addCase(portfolioGetRequest.fulfilled, (state, action) => {
-        state.status = 'success'
-        state.portolio = action.payload
-      })
-      .addCase(portfolioGetRequest.rejected, (state, action) => {
-        state.status = 'failed'
+        state.status = 'idle'
+        state.portolio = action.payload.portolio
+        state.totalGains = action.payload.totalGains
       })
       .addCase(portfolioDeleteRequest.pending, (state, action) => {
         state.status = 'loading'
       })
       .addCase(portfolioDeleteRequest.fulfilled, (state, action) => {
-        state.status = 'success'
-      })
-      .addCase(portfolioDeleteRequest.rejected, (state, action) => {
-        state.status = 'failed'
+        state.status = 'idle'
       })
   },
 })
