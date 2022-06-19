@@ -15,22 +15,61 @@ export interface ISearchResult {
   '9. matchScore': string
 }
 
+export interface INews {
+  title: string
+  banner_image: string
+  summary: string
+  url: string
+  time_published: string
+}
+
+export interface IInstrument {
+  '01. symbol': string
+  '02. open': string
+  '03. high': string
+  '04. low': string
+  '05. price': string
+  '06. volume': string
+  '07. latest trading day': string
+  '08. previous close': string
+  '09. change': string
+  '10. change percent': string
+}
+
 export type InstrumentsState = {
   status: StoreStatus
   searchResult: ISearchResult[]
+  currentInstrument?: {
+    price?: IInstrument
+    news?: INews[]
+  }
 }
 
 export const instrumentsApiRequest = createAsyncThunk(
   'instruments/api/get',
   async ({ keyword }: { keyword: string }) => {
-    const response = await api().get<{ bestMatches: ISearchResult[] }>(
-      '/query',
-      { function: 'SYMBOL_SEARCH', keywords: keyword, apikey: apiKey },
-      { headers: { 'User-Agent': 'request', 'Access-Control-Allow-Origin': 'http://localhost:19006/' } }
-    )
-    return response.data?.bestMatches || []
+    const priceResponse = await api().get<{ bestMatches: ISearchResult[] }>('/query', {
+      function: 'SYMBOL_SEARCH',
+      keywords: keyword,
+      apikey: apiKey,
+    })
+    return priceResponse.data?.bestMatches || []
   }
 )
+
+export const instrumentApiRequest = createAsyncThunk('instrument/api/get', async ({ symbol }: { symbol: string }) => {
+  const response = await api().get<{ 'Global Quote': IInstrument }>('/query', {
+    function: 'GLOBAL_QUOTE',
+    symbol,
+    apikey: apiKey,
+  })
+  const newsResponse = await api().get<{ feed: INews[] }>('/query', {
+    function: 'NEWS_SENTIMENT',
+    tickers: symbol,
+    apikey: apiKey,
+  })
+  return { price: response.data?.['Global Quote'], news: newsResponse.data?.feed }
+})
 
 const initialState: InstrumentsState = {
   status: 'idle',
@@ -56,6 +95,12 @@ export const instrumentsSlice = createSlice({
       })
       .addCase(instrumentsApiRequest.rejected, (state, action) => {
         state.status = 'failed'
+      })
+      .addCase(instrumentApiRequest.pending, (state, action) => {
+        state.currentInstrument = undefined
+      })
+      .addCase(instrumentApiRequest.fulfilled, (state, action) => {
+        state.currentInstrument = action.payload
       })
   },
 })

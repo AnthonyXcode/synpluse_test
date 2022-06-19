@@ -1,7 +1,6 @@
-import { TextProps } from '@components/Themed'
 import { colors } from '@starter/themes/colors'
 import { size } from '@starter/themes/size'
-import { Text as BaseText, StyleSheet } from 'react-native'
+import { Text as BaseText, StyleSheet, TextProps } from 'react-native'
 
 export const Text = (props: TextProps) => {
   return <BaseText allowFontScaling={false} style={{ fontSize: size[4], fontWeight: '400' }} {...props} />
