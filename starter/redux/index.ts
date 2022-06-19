@@ -8,7 +8,7 @@ import { Reducers } from '../../redux/slice'
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  blacklist: [],
+  blacklist: ['instruments'],
 }
 
 const persistedReducer = persistReducer(persistConfig, combineReducers({ ...Reducers, example: exampleSlice.reducer }))

@@ -3,7 +3,7 @@ import { StoreStatus } from '@starter/redux/type'
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { api, apiKey } from '@starter/helper/api'
 
-interface ISearchResult {
+export interface ISearchResult {
   '1. symbol': string
   '2. name': string
   '3. type': string
