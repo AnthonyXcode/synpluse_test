@@ -40,7 +40,7 @@ export default function LoginScreen({ navigation }: LoginScreenProps<'Login'>) {
         control={control}
         rules={{ required: true }}
         render={({ field: { onChange } }) => {
-          return <FormText title='E-mail' onChangeText={onChange} />
+          return <FormText title='E-mail' onChangeText={onChange} error={errors.email?.message} />
         }}
       />
       <Controller
@@ -48,7 +48,7 @@ export default function LoginScreen({ navigation }: LoginScreenProps<'Login'>) {
         control={control}
         rules={{ required: true }}
         render={({ field: { onChange } }) => {
-          return <FormText title='Password' onChangeText={onChange} isPaasword />
+          return <FormText title='Password' onChangeText={onChange} isPaasword error={errors.password?.message} />
         }}
       />
       <Spacing height={20} />

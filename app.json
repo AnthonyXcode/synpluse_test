@@ -32,6 +32,10 @@
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
+    },
+    "extra": {
+      "baesUrl": "https://www.alphavantage.co",
+      "apiKey": "8NQ4F9S2W4VI4JAN"
     }
   }
 }

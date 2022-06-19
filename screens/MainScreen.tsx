@@ -1,13 +1,28 @@
+import { instrumentsApiRequest } from '@slice/instruments'
 import { Button } from '@starter/component/Button'
 import { FormText } from '@starter/component/Form/FormText'
-import { useState } from 'react'
-import { StyleSheet, View, Text, SafeAreaView } from 'react-native'
+import { Controller, useForm } from 'react-hook-form'
+import { StyleSheet, View, SafeAreaView } from 'react-native'
+import { useDispatch } from 'react-redux'
 import { RootTabScreenProps } from '../types'
 
+interface IFrom {
+  keyword: string
+}
+
 export default function MainScreen({ navigation }: RootTabScreenProps<'Main'>) {
-  const [instrument, setInstrument] = useState('')
-  const onPressSearch = () => {
-    console.log(instrument)
+  const dispatch = useDispatch()
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IFrom>()
+
+  const onPressSearch = (data: IFrom) => {
+    if (!data.keyword) {
+      return
+    }
+    dispatch(instrumentsApiRequest({ keyword: data.keyword }))
   }
 
   return (
@@ -15,9 +30,23 @@ export default function MainScreen({ navigation }: RootTabScreenProps<'Main'>) {
       <View style={styles.container}>
         <View style={styles.searchBox}>
           <View style={styles.input}>
-            <FormText title='instrument' onChangeText={setInstrument} placeHolder='Please enter here...' />
+            <Controller
+              control={control}
+              name='keyword'
+              rules={{ required: true }}
+              render={({ field: { onChange } }) => {
+                return (
+                  <FormText
+                    title='instrument'
+                    onChangeText={onChange}
+                    placeHolder='Please enter here...'
+                    error={errors.keyword?.message}
+                  />
+                )
+              }}
+            />
           </View>
-          <Button title='Search' onPress={onPressSearch} />
+          <Button title='Search' onPress={handleSubmit(onPressSearch)} />
         </View>
       </View>
     </SafeAreaView>
