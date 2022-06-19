@@ -7,8 +7,9 @@ import { useEffect } from 'react'
 import { StyleSheet, View, FlatList, ListRenderItem, Alert } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { AntDesign } from '@expo/vector-icons'
+import { RootTabScreenProps } from '../types'
 
-export default function PortfolioScreen() {
+export default function PortfolioScreen({ navigation }: RootTabScreenProps<'Portfolio'>) {
   const { status, portolio, totalGains } = useSelector(portfolioSeletor)
   const dispatch = useDispatch()
 
@@ -23,9 +24,14 @@ export default function PortfolioScreen() {
     ])
   }
 
+  const onPressRow = (item: IPortfolio) => {
+    navigation.navigate('Instrument', { symbol: item.symbol })
+  }
+
   const renderItem: ListRenderItem<IPortfolio> = ({ item }) => {
     return (
       <Row
+        onPress={() => onPressRow(item)}
         rightIcon={
           <AntDesign
             name='delete'
