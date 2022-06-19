@@ -16,6 +16,7 @@ import { INews, instrumentApiRequest, instrumentsSeletor } from '@slice/instrume
 import { LoadingLottie } from '@starter/component/LoadingLottie'
 import { Text } from '@starter/component/Text'
 import { Row } from '@starter/component/Row'
+import { Button } from '@starter/component/Button'
 
 export default function InstrumentScreen({ navigation, route }: RootStackScreenProps<'Instrument'>) {
   const dispatch = useDispatch()
@@ -41,17 +42,21 @@ export default function InstrumentScreen({ navigation, route }: RootStackScreenP
     )
   }
 
+  const onPressAddToPortfolio = () => {
+    navigation.navigate('AddInstrument', { symbol: route.params.symbol })
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.container}>
         <View>
           <Row title='Price' description={currentInstrument?.price?.['05. price']} />
-          <Row title='Open' description={currentInstrument?.price?.['02. open']} />
           <Row title='Hight' description={currentInstrument?.price?.['03. high']} />
           <Row title='Low' description={currentInstrument?.price?.['04. low']} />
           <Row title='Volumn' description={currentInstrument?.price?.['06. volume']} />
         </View>
         <FlatList data={currentInstrument?.news} renderItem={renderNews} keyExtractor={(item) => item.url} />
+        <Button title={'Add to Portfolio'} onPress={onPressAddToPortfolio} style={{ padding: 20 }} />
       </View>
       <LoadingLottie isVisible={!currentInstrument} isIndicator />
     </SafeAreaView>

@@ -21,6 +21,7 @@ import { AntDesign, MaterialCommunityIcons, Feather } from '@expo/vector-icons'
 import MainScreen from '../screens/MainScreen'
 import PortfolioScreen from '../screens/PortfolioScreen'
 import InstrumentScreen from '@screens/InstrumentScreen'
+import AddInstrumentModal from '@screens/AddInstrumentModal'
 
 export default function Navigation({ isLoggedIn }: { isLoggedIn: boolean }) {
   return (
@@ -51,6 +52,9 @@ function RootNavigator({ isLoggedIn }: { isLoggedIn: boolean }) {
       <Stack.Screen name='NotFound' component={NotFoundScreen} options={{ title: 'Oops!' }} />
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name='Modal' component={ModalScreen} />
+      </Stack.Group>
+      <Stack.Group screenOptions={{ presentation: 'modal' }}>
+        <Stack.Screen name='AddInstrument' component={AddInstrumentModal} />
       </Stack.Group>
     </Stack.Navigator>
   )

@@ -19,6 +19,9 @@ export type RootStackParamList = {
   Instrument: {
     symbol: string
   }
+  AddInstrument: {
+    symbol: string
+  }
   Modal: undefined
   NotFound: undefined
 }
