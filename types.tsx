@@ -18,6 +18,7 @@ export type RootStackParamList = {
   Login: NavigatorScreenParams<LoginParamList> | undefined
   Instrument: {
     symbol: string
+    price?: string
   }
   AddInstrument: {
     symbol: string

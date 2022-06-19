@@ -24,6 +24,7 @@ export default function InstrumentScreen({ navigation, route }: RootStackScreenP
 
   useEffect(() => {
     dispatch(instrumentApiRequest({ symbol: route.params.symbol }))
+    navigation.setParams({ price: currentInstrument?.price?.['05. price'] })
   }, [])
 
   const renderNews: ListRenderItem<INews> = ({ item }) => {

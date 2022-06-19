@@ -10,8 +10,6 @@ import LoginScreen from '@screens/LoginScreen'
 import ProfileScreen from '@screens/ProfileScreen'
 import RegisterScreen from '@screens/RegisterScreen'
 import * as React from 'react'
-
-import useColorScheme from '../hooks/useColorScheme'
 import ModalScreen from '../screens/ModalScreen'
 import NotFoundScreen from '../screens/NotFoundScreen'
 import { LoginParamList, RootStackParamList, RootTabParamList, RootTabScreenProps } from '../types'
@@ -22,6 +20,7 @@ import PortfolioScreen from '../screens/PortfolioScreen'
 import InstrumentScreen from '@screens/InstrumentScreen'
 import AddInstrumentModal from '@screens/AddInstrumentModal'
 import { colors } from '@starter/themes/colors'
+import { Share } from 'react-native'
 
 export default function Navigation({ isLoggedIn }: { isLoggedIn: boolean }) {
   return (
@@ -49,7 +48,19 @@ function RootNavigator({ isLoggedIn }: { isLoggedIn: boolean }) {
         <Stack.Screen
           name='Instrument'
           component={InstrumentScreen}
-          options={({ route }) => ({ headerShown: true, headerTitle: route.params.symbol, headerBackTitle: '' })}
+          options={({ route }) => ({
+            headerShown: true,
+            headerTitle: route.params.symbol,
+            headerBackTitle: '',
+            headerRight: () => (
+              <AntDesign
+                name='sharealt'
+                size={24}
+                color={colors.primary}
+                onPress={async () => await Share.share({ message: `${route.params.symbol}@${route.params.price}` })}
+              />
+            ),
+          })}
         />
       )}
       <Stack.Screen name='NotFound' component={NotFoundScreen} options={{ title: 'Oops!' }} />
@@ -81,8 +92,6 @@ function LoginNavigation() {
 const BottomTab = createBottomTabNavigator<RootTabParamList>()
 
 function BottomTabNavigator() {
-  const colorScheme = useColorScheme()
-
   return (
     <BottomTab.Navigator
       screenOptions={{
