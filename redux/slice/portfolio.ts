@@ -1,3 +1,4 @@
+import { firebaseHelper } from './../../helper/firebase'
 import { RootState } from '@slice'
 import { StoreStatus } from '@starter/redux/type'
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
@@ -6,7 +7,12 @@ export type PortfolioState = {
   status: StoreStatus
 }
 
-export const portfolioApiRequest = createAsyncThunk('portfolio/api/action', async () => {})
+export const portfolioAddRequest = createAsyncThunk(
+  'portfolio/api/action',
+  async ({ symbol, price, position }: { symbol: string; price: number; position: number }) => {
+    await firebaseHelper.addPortfolio({ symbol, price, position })
+  }
+)
 
 const initialState: PortfolioState = {
   status: 'idle',
@@ -19,19 +25,16 @@ export const portfolioSlice = createSlice({
     resetStatus: (state) => {
       state.status = 'idle'
     },
-    resetLogin: (state) => {
-      state.status = 'idle'
-    },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(portfolioApiRequest.pending, (state, action) => {
+      .addCase(portfolioAddRequest.pending, (state, action) => {
         state.status = 'loading'
       })
-      .addCase(portfolioApiRequest.fulfilled, (state, action) => {
+      .addCase(portfolioAddRequest.fulfilled, (state, action) => {
         state.status = 'success'
       })
-      .addCase(portfolioApiRequest.rejected, (state, action) => {
+      .addCase(portfolioAddRequest.rejected, (state, action) => {
         state.status = 'failed'
       })
   },

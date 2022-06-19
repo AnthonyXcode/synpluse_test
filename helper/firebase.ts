@@ -1,6 +1,6 @@
 import { initializeApp, getApps } from 'firebase/app'
-import { User } from 'firebase/auth'
-import { doc, getFirestore, setDoc } from 'firebase/firestore'
+import { getAuth, User } from 'firebase/auth'
+import { addDoc, collection, doc, getFirestore, setDoc } from 'firebase/firestore'
 
 const firebaseConfig = {
   apiKey: 'AIzaSyDtBHz9Ctjl93WA8ggYUQANsP30gKwYyTY',
@@ -29,7 +29,16 @@ const setUser = async (user: User) => {
     .catch((error) => console.log({ error }))
 }
 
+const addPortfolio = async ({ symbol, price, position }: { symbol: string; price: number; position: number }) => {
+  const auth = getAuth()
+  const uid = auth.currentUser?.uid
+  const db = getFirestore()
+  const c = collection(db, `users/${uid}`, 'portfolio')
+  await addDoc(c, { symbol, price, position })
+}
+
 export const firebaseHelper = {
   initFirebase,
+  addPortfolio,
   setUser,
 }
