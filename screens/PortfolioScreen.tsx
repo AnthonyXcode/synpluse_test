@@ -1,5 +1,4 @@
 import { IPortfolio, portfolioDeleteRequest, portfolioGetRequest, portfolioSeletor } from '@slice/portfolio'
-import { LoadingLottie } from '@starter/component/LoadingLottie'
 import { Row } from '@starter/component/Row'
 import { Text } from '@starter/component/Text'
 import { colors } from '@starter/themes/colors'
