@@ -88,6 +88,9 @@ export const portfolioSlice = createSlice({
         state.portolio = action.payload.portolio
         state.totalGains = action.payload.totalGains
       })
+      .addCase(portfolioGetRequest.rejected, (state, action) => {
+        state.status = 'idle'
+      })
       .addCase(portfolioDeleteRequest.pending, (state, action) => {
         state.status = 'loading'
       })

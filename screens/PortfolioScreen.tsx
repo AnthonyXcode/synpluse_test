@@ -4,7 +4,7 @@ import { Row } from '@starter/component/Row'
 import { Text } from '@starter/component/Text'
 import { colors } from '@starter/themes/colors'
 import { useEffect } from 'react'
-import { StyleSheet, View, FlatList, ListRenderItem, Alert } from 'react-native'
+import { StyleSheet, View, FlatList, ListRenderItem, Alert, RefreshControl } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { AntDesign } from '@expo/vector-icons'
 import { RootTabScreenProps } from '../types'
@@ -56,9 +56,16 @@ export default function PortfolioScreen({ navigation }: RootTabScreenProps<'Port
 
   return (
     <View style={styles.container}>
-      <FlatList style={styles.list} data={portolio} renderItem={renderItem} keyExtractor={(item) => item.id} />
+      <FlatList
+        refreshControl={
+          <RefreshControl refreshing={status === 'loading'} onRefresh={() => dispatch(portfolioGetRequest())} />
+        }
+        style={styles.list}
+        data={portolio}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+      />
       <Row title='Total Gains:' description={totalGains?.toString()} />
-      <LoadingLottie isVisible={status === 'loading'} isIndicator />
     </View>
   )
 }
