@@ -56,7 +56,7 @@ export default function InstrumentScreen({ navigation, route }: RootStackScreenP
           <Row title='Volumn' description={currentInstrument?.price?.['06. volume']} />
         </View>
         <FlatList data={currentInstrument?.news} renderItem={renderNews} keyExtractor={(item) => item.url} />
-        <Button title={'Add to Portfolio'} onPress={onPressAddToPortfolio} style={{ padding: 20 }} />
+        <Button title={'Add to Portfolio'} onPress={onPressAddToPortfolio} style={styles.btn} />
       </View>
       <LoadingLottie isVisible={!currentInstrument} isIndicator />
     </SafeAreaView>
@@ -77,5 +77,8 @@ const styles = StyleSheet.create({
   image: {
     width: Dimensions.get('screen').width - 40,
     height: 250,
+  },
+  btn: {
+    padding: 20,
   },
 })
