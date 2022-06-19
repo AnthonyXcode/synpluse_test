@@ -11,7 +11,6 @@ import ProfileScreen from '@screens/ProfileScreen'
 import RegisterScreen from '@screens/RegisterScreen'
 import * as React from 'react'
 
-import Colors from '../constants/Colors'
 import useColorScheme from '../hooks/useColorScheme'
 import ModalScreen from '../screens/ModalScreen'
 import NotFoundScreen from '../screens/NotFoundScreen'
@@ -22,6 +21,7 @@ import MainScreen from '../screens/MainScreen'
 import PortfolioScreen from '../screens/PortfolioScreen'
 import InstrumentScreen from '@screens/InstrumentScreen'
 import AddInstrumentModal from '@screens/AddInstrumentModal'
+import { colors } from '@starter/themes/colors'
 
 export default function Navigation({ isLoggedIn }: { isLoggedIn: boolean }) {
   return (
@@ -39,7 +39,10 @@ const Stack = createNativeStackNavigator<RootStackParamList>()
 
 function RootNavigator({ isLoggedIn }: { isLoggedIn: boolean }) {
   return (
-    <Stack.Navigator initialRouteName={isLoggedIn ? 'Root' : 'Login'} screenOptions={{ headerShown: false }}>
+    <Stack.Navigator
+      initialRouteName={isLoggedIn ? 'Root' : 'Login'}
+      screenOptions={{ headerShown: false, headerTintColor: colors.primary }}
+    >
       {isLoggedIn && <Stack.Screen name='Root' component={BottomTabNavigator} />}
       {!isLoggedIn && <Stack.Screen name='Login' component={LoginNavigation} />}
       {isLoggedIn && (
@@ -64,7 +67,7 @@ const LoginStack = createNativeStackNavigator<LoginParamList>()
 
 function LoginNavigation() {
   return (
-    <LoginStack.Navigator>
+    <LoginStack.Navigator screenOptions={{ headerTintColor: colors.primary }}>
       <LoginStack.Screen name='Login' component={LoginScreen} />
       <LoginStack.Screen name='Register' component={RegisterScreen} />
     </LoginStack.Navigator>
@@ -83,7 +86,7 @@ function BottomTabNavigator() {
   return (
     <BottomTab.Navigator
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme].tint,
+        tabBarActiveTintColor: colors.primary,
       }}
     >
       <BottomTab.Screen
